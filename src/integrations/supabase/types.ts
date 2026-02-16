@@ -44,6 +44,57 @@ export type Database = {
         }
         Relationships: []
       }
+      badges: {
+        Row: {
+          badge_name: string
+          badge_type: string
+          earned_at: string
+          id: string
+          student_id: string
+        }
+        Insert: {
+          badge_name: string
+          badge_type: string
+          earned_at?: string
+          id?: string
+          student_id: string
+        }
+        Update: {
+          badge_name?: string
+          badge_type?: string
+          earned_at?: string
+          id?: string
+          student_id?: string
+        }
+        Relationships: []
+      }
+      daily_streaks: {
+        Row: {
+          current_streak: number
+          id: string
+          last_activity_date: string | null
+          longest_streak: number
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          current_streak?: number
+          id?: string
+          last_activity_date?: string | null
+          longest_streak?: number
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          current_streak?: number
+          id?: string
+          last_activity_date?: string | null
+          longest_streak?: number
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       emotion_history: {
         Row: {
           created_at: string
@@ -68,31 +119,64 @@ export type Database = {
         }
         Relationships: []
       }
+      mood_journal: {
+        Row: {
+          created_at: string
+          emoji: string
+          emotion: string
+          id: string
+          note: string | null
+          student_id: string
+        }
+        Insert: {
+          created_at?: string
+          emoji: string
+          emotion: string
+          id?: string
+          note?: string | null
+          student_id: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string
+          emotion?: string
+          id?: string
+          note?: string | null
+          student_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age: number
+          avatar: string | null
           class: string
           created_at: string
           id: string
           name: string
+          total_points: number
           total_stars: number
           user_id: string
         }
         Insert: {
           age?: number
+          avatar?: string | null
           class?: string
           created_at?: string
           id?: string
           name?: string
+          total_points?: number
           total_stars?: number
           user_id: string
         }
         Update: {
           age?: number
+          avatar?: string | null
           class?: string
           created_at?: string
           id?: string
           name?: string
+          total_points?: number
           total_stars?: number
           user_id?: string
         }

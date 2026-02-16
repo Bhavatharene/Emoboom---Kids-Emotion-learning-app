@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import MoodJournal from "./pages/MoodJournal";
 import EmojiLearning from "./pages/activities/EmojiLearning";
 import FaceDetection from "./pages/activities/FaceDetection";
 import SituationQuiz from "./pages/activities/SituationQuiz";
@@ -29,6 +30,7 @@ const AppRoutes = () => (
     <Route path="/" element={<Index />} />
     <Route path="/auth" element={<Auth />} />
     <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+    <Route path="/mood-journal" element={<ProtectedRoute><MoodJournal /></ProtectedRoute>} />
     <Route path="/activity/emoji-learning" element={<ProtectedRoute><EmojiLearning /></ProtectedRoute>} />
     <Route path="/activity/face-detection" element={<ProtectedRoute><FaceDetection /></ProtectedRoute>} />
     <Route path="/activity/situation-quiz" element={<ProtectedRoute><SituationQuiz /></ProtectedRoute>} />

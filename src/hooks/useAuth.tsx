@@ -9,6 +9,8 @@ interface Profile {
   age: number;
   class: string;
   total_stars: number;
+  total_points: number;
+  avatar: string;
 }
 
 interface AuthContextType {
