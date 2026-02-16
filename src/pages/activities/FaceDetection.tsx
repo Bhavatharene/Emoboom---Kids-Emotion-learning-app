@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Camera, RotateCcw, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import EmotionCoach from "@/components/EmotionCoach";
 
 const emotionEmojis: Record<string, string> = {
   Happy: "😊",
@@ -17,6 +18,8 @@ const emotionEmojis: Record<string, string> = {
   Neutral: "😐",
 };
 
+const manualEmotions = ["Happy", "Sad", "Angry", "Surprised", "Neutral"];
+
 const FaceDetection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -24,6 +27,7 @@ const FaceDetection = () => {
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<{ emotion: string; confidence: number; tip: string } | null>(null);
   const [stars, setStars] = useState(0);
+  const [showManual, setShowManual] = useState(false);
   const { logActivity, logEmotion } = useActivityLog();
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -39,6 +43,7 @@ const FaceDetection = () => {
       }
       setStreaming(true);
       setResult(null);
+      setShowManual(false);
     } catch {
       toast.error("Could not access camera. Please allow camera permission! 📷");
     }
@@ -52,9 +57,18 @@ const FaceDetection = () => {
     setStreaming(false);
   }, []);
 
+  const handleDetected = async (emotion: string, confidence: number, source: string) => {
+    await logEmotion(emotion, source);
+    const earned = 2;
+    setStars((s) => s + earned);
+    await logActivity("face-detection", 1, earned, { emotion, confidence });
+    toast.success(`Detected: ${emotion}! ⭐⭐`);
+  };
+
   const captureAndAnalyze = useCallback(async () => {
     if (!videoRef.current || !canvasRef.current) return;
     setAnalyzing(true);
+    setShowManual(false);
 
     const canvas = canvasRef.current;
     const video = videoRef.current;
@@ -72,19 +86,28 @@ const FaceDetection = () => {
 
       if (error) throw error;
 
+      const confidence = data.confidence || 5;
       setResult(data);
-      const emotion = data.emotion || "Neutral";
-      await logEmotion(emotion, "face");
-      const earned = 2;
-      setStars((s) => s + earned);
-      await logActivity("face-detection", 1, earned, { emotion, confidence: data.confidence });
-      toast.success(`Detected: ${emotion}! ⭐⭐`);
+
+      if (confidence < 4) {
+        setShowManual(true);
+        toast.info("Not sure about that one! Try a bigger expression or pick manually below.");
+      } else {
+        await handleDetected(data.emotion || "Neutral", confidence, "face");
+      }
     } catch (err: any) {
-      toast.error("Couldn't detect emotion. Try again!");
+      toast.error("Couldn't detect emotion. Pick manually below!");
+      setShowManual(true);
       console.error(err);
     }
     setAnalyzing(false);
   }, [logActivity, logEmotion]);
+
+  const selectManual = async (emotion: string) => {
+    setResult({ emotion, confidence: 10, tip: "You picked this yourself!" });
+    await handleDetected(emotion, 10, "manual");
+    setShowManual(false);
+  };
 
   return (
     <ActivityLayout title="Face Detection" emoji="📷" starsEarned={stars}>
@@ -109,7 +132,7 @@ const FaceDetection = () => {
               autoPlay
               playsInline
               muted
-              className="w-full rounded-2xl mirror"
+              className="w-full rounded-2xl"
               style={{ transform: "scaleX(-1)" }}
             />
             {analyzing && (
@@ -128,16 +151,12 @@ const FaceDetection = () => {
               disabled={analyzing}
               className="flex-1 rounded-xl font-display text-lg h-14"
             >
-              {analyzing ? (
-                <Loader2 className="w-5 h-5 animate-spin mr-2" />
-              ) : (
-                <Camera className="w-5 h-5 mr-2" />
-              )}
+              {analyzing ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Camera className="w-5 h-5 mr-2" />}
               {analyzing ? "Detecting..." : "Detect My Emotion!"}
             </Button>
             <Button
               variant="outline"
-              onClick={() => { stopCamera(); setResult(null); }}
+              onClick={() => { stopCamera(); setResult(null); setShowManual(false); }}
               className="rounded-xl h-14"
             >
               <RotateCcw className="w-5 h-5" />
@@ -146,23 +165,51 @@ const FaceDetection = () => {
         </div>
       )}
 
+      {/* Low confidence / failure: manual selection */}
+      {showManual && (
+        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="card-playful p-5 mt-4">
+          <p className="font-display font-bold text-foreground text-sm mb-3 text-center">
+            Pick how you're feeling: 👇
+          </p>
+          <div className="flex gap-2 justify-center flex-wrap">
+            {manualEmotions.map((em) => (
+              <Button key={em} variant="outline" onClick={() => selectManual(em)} className="rounded-xl font-display text-lg px-4 py-3">
+                {emotionEmojis[em]} {em}
+              </Button>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
       {result && (
         <motion.div
           initial={{ y: 30, opacity: 0, scale: 0.9 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           className="card-playful p-6 text-center mt-4"
         >
-          <div className="text-6xl mb-3">
-            {emotionEmojis[result.emotion] || "😐"}
-          </div>
+          <div className="text-6xl mb-3">{emotionEmojis[result.emotion] || "😐"}</div>
           <h3 className="text-2xl font-display font-bold text-foreground">
             You look {result.emotion}!
           </h3>
+          {result.confidence < 10 && (
+            <p className="text-muted-foreground mt-1 text-sm">
+              Confidence: {Math.round(result.confidence * 10)}%
+            </p>
+          )}
+          {result.confidence < 4 && (
+            <p className="text-xs text-primary mt-1">
+              Try a bigger expression or move closer to the camera! 📷
+            </p>
+          )}
           <p className="text-muted-foreground mt-2">{result.tip}</p>
-          <div className="mt-3 inline-flex items-center gap-1 bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-display">
-            Confidence: {result.confidence}/10
-          </div>
         </motion.div>
+      )}
+
+      {/* AI Emotion Coach */}
+      {result && (
+        <div className="mt-4">
+          <EmotionCoach emotion={result.emotion} />
+        </div>
       )}
     </ActivityLayout>
   );
