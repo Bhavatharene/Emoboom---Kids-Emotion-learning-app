@@ -9,14 +9,13 @@ import { useBadges } from "@/hooks/useBadges";
 import { useStreaks } from "@/hooks/useStreaks";
 
 const activities = [
-  { id: "emoji-learning", emoji: "😀", title: "Emoji Learning", desc: "Learn emotion names!" },
-  { id: "face-detection", emoji: "📷", title: "Face Detection", desc: "What face are you making?" },
-  { id: "situation-quiz", emoji: "🎭", title: "Situation Quiz", desc: "How would you feel?" },
-  { id: "emotion-dress-up", emoji: "🎨", title: "Emotion Dress-Up", desc: "Build a face!" },
+  { id: "emotion-story", emoji: "📖", title: "Emotion Story", desc: "Choose your adventure!" },
   { id: "emotion-detective", emoji: "🔍", title: "Emotion Detective", desc: "Find the emotion!" },
-  { id: "calm-down", emoji: "🧘", title: "Calm Down", desc: "Breathe and relax!" },
-  { id: "guess-emotion", emoji: "🤔", title: "Guess Emotion", desc: "What are they feeling?" },
+  { id: "social-simulator", emoji: "🎭", title: "Social Situations", desc: "What would you do?" },
+  { id: "emotion-dress-up", emoji: "🎨", title: "Emotion Dress-Up", desc: "Build a face!" },
   { id: "memory-match", emoji: "🧩", title: "Memory Match", desc: "Match emoji pairs!" },
+  { id: "emotion-coach-game", emoji: "💛", title: "Emotion Coach", desc: "Learn empathy!" },
+  { id: "emotion-weather", emoji: "🌦️", title: "Weather World", desc: "Emotions & weather!" },
 ];
 
 const Dashboard = () => {
