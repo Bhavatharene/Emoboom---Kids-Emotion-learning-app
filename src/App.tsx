@@ -8,14 +8,13 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import MoodJournal from "./pages/MoodJournal";
-import EmojiLearning from "./pages/activities/EmojiLearning";
-import FaceDetection from "./pages/activities/FaceDetection";
-import SituationQuiz from "./pages/activities/SituationQuiz";
-import CalmDown from "./pages/activities/CalmDown";
-import GuessEmotion from "./pages/activities/GuessEmotion";
-import MemoryMatch from "./pages/activities/MemoryMatch";
-import EmotionDressUp from "./pages/activities/EmotionDressUp";
+import EmotionStoryBuilder from "./pages/activities/EmotionStoryBuilder";
 import EmotionDetective from "./pages/activities/EmotionDetective";
+import SocialSimulator from "./pages/activities/SocialSimulator";
+import EmotionDressUp from "./pages/activities/EmotionDressUp";
+import MemoryMatch from "./pages/activities/MemoryMatch";
+import EmotionCoachGame from "./pages/activities/EmotionCoachGame";
+import EmotionWeatherWorld from "./pages/activities/EmotionWeatherWorld";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,14 +32,13 @@ const AppRoutes = () => (
     <Route path="/auth" element={<Auth />} />
     <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
     <Route path="/mood-journal" element={<ProtectedRoute><MoodJournal /></ProtectedRoute>} />
-    <Route path="/activity/emoji-learning" element={<ProtectedRoute><EmojiLearning /></ProtectedRoute>} />
-    <Route path="/activity/face-detection" element={<ProtectedRoute><FaceDetection /></ProtectedRoute>} />
-    <Route path="/activity/situation-quiz" element={<ProtectedRoute><SituationQuiz /></ProtectedRoute>} />
-    <Route path="/activity/calm-down" element={<ProtectedRoute><CalmDown /></ProtectedRoute>} />
-    <Route path="/activity/guess-emotion" element={<ProtectedRoute><GuessEmotion /></ProtectedRoute>} />
-    <Route path="/activity/memory-match" element={<ProtectedRoute><MemoryMatch /></ProtectedRoute>} />
-    <Route path="/activity/emotion-dress-up" element={<ProtectedRoute><EmotionDressUp /></ProtectedRoute>} />
+    <Route path="/activity/emotion-story" element={<ProtectedRoute><EmotionStoryBuilder /></ProtectedRoute>} />
     <Route path="/activity/emotion-detective" element={<ProtectedRoute><EmotionDetective /></ProtectedRoute>} />
+    <Route path="/activity/social-simulator" element={<ProtectedRoute><SocialSimulator /></ProtectedRoute>} />
+    <Route path="/activity/emotion-dress-up" element={<ProtectedRoute><EmotionDressUp /></ProtectedRoute>} />
+    <Route path="/activity/memory-match" element={<ProtectedRoute><MemoryMatch /></ProtectedRoute>} />
+    <Route path="/activity/emotion-coach-game" element={<ProtectedRoute><EmotionCoachGame /></ProtectedRoute>} />
+    <Route path="/activity/emotion-weather" element={<ProtectedRoute><EmotionWeatherWorld /></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
