@@ -12,6 +12,8 @@ const activities = [
   { id: "emoji-learning", emoji: "😀", title: "Emoji Learning", desc: "Learn emotion names!" },
   { id: "face-detection", emoji: "📷", title: "Face Detection", desc: "What face are you making?" },
   { id: "situation-quiz", emoji: "🎭", title: "Situation Quiz", desc: "How would you feel?" },
+  { id: "emotion-dress-up", emoji: "🎨", title: "Emotion Dress-Up", desc: "Build a face!" },
+  { id: "emotion-detective", emoji: "🔍", title: "Emotion Detective", desc: "Find the emotion!" },
   { id: "calm-down", emoji: "🧘", title: "Calm Down", desc: "Breathe and relax!" },
   { id: "guess-emotion", emoji: "🤔", title: "Guess Emotion", desc: "What are they feeling?" },
   { id: "memory-match", emoji: "🧩", title: "Memory Match", desc: "Match emoji pairs!" },
