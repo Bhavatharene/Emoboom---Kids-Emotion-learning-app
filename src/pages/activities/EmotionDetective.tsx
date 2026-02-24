@@ -4,11 +4,6 @@ import { Button } from "@/components/ui/button";
 import ActivityLayout from "@/components/ActivityLayout";
 import { useActivityLog } from "@/hooks/useActivityLog";
 
-import classroomBg from "@/assets/scenes/classroom.jpg";
-import playgroundBg from "@/assets/scenes/playground.jpg";
-import birthdayBg from "@/assets/scenes/birthday.jpg";
-import studygroupBg from "@/assets/scenes/studygroup.jpg";
-
 type Emotion = "happy" | "sad" | "angry" | "surprised";
 
 interface Character {
@@ -20,14 +15,16 @@ interface Character {
 
 interface Scene {
   name: string;
-  image: string;
+  bg: string;
+  bgEmoji: string;
   characters: Character[];
 }
 
 const SCENES: Scene[] = [
   {
     name: "Classroom",
-    image: classroomBg,
+    bg: "from-blue-100 to-blue-50",
+    bgEmoji: "📚",
     characters: [
       { id: "c1", emotion: "happy", emoji: "😊", label: "Student A" },
       { id: "c2", emotion: "sad", emoji: "😢", label: "Student B" },
@@ -37,7 +34,8 @@ const SCENES: Scene[] = [
   },
   {
     name: "Playground",
-    image: playgroundBg,
+    bg: "from-green-100 to-yellow-50",
+    bgEmoji: "🏫",
     characters: [
       { id: "p1", emotion: "happy", emoji: "😄", label: "Child A" },
       { id: "p2", emotion: "angry", emoji: "😡", label: "Child B" },
@@ -47,7 +45,8 @@ const SCENES: Scene[] = [
   },
   {
     name: "Birthday Party",
-    image: birthdayBg,
+    bg: "from-pink-100 to-purple-50",
+    bgEmoji: "🎂",
     characters: [
       { id: "b1", emotion: "happy", emoji: "🥳", label: "Birthday Kid" },
       { id: "b2", emotion: "surprised", emoji: "😲", label: "Friend A" },
@@ -57,7 +56,8 @@ const SCENES: Scene[] = [
   },
   {
     name: "Study Group",
-    image: studygroupBg,
+    bg: "from-orange-50 to-amber-50",
+    bgEmoji: "✏️",
     characters: [
       { id: "s1", emotion: "sad", emoji: "😔", label: "Student A" },
       { id: "s2", emotion: "happy", emoji: "😊", label: "Student B" },
@@ -83,6 +83,7 @@ function pickPrompt(emotion: Emotion): string {
 
 function shuffleEmotions(scene: Scene): Emotion[] {
   const emotions = [...new Set(scene.characters.map((c) => c.emotion))] as Emotion[];
+  // Fisher-Yates shuffle
   for (let i = emotions.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [emotions[i], emotions[j]] = [emotions[j], emotions[i]];
@@ -123,6 +124,7 @@ const EmotionDetective = () => {
       setFeedback(null);
       setHighlightedId(null);
     } else {
+      // Move to next scene
       const nextSceneIdx = (sceneIdx + 1) % SCENES.length;
       const nextScene = SCENES[nextSceneIdx];
       setSceneIdx(nextSceneIdx);
@@ -157,30 +159,29 @@ const EmotionDetective = () => {
         >
           <p className="text-lg font-display font-bold text-foreground">🔍 {prompt}</p>
           <p className="text-xs font-display text-muted-foreground">
-            {scene.name} — {sceneProgress}
+            {scene.bgEmoji} {scene.name} — {sceneProgress}
           </p>
         </motion.div>
 
-        {/* Scene image with characters overlaid */}
-        <div className="relative w-full rounded-2xl border-2 border-border/50 overflow-hidden">
-          <img
-            src={scene.image}
-            alt={`${scene.name} scene`}
-            className="w-full h-56 sm:h-64 object-cover"
-          />
+        {/* Scene grid */}
+        <div className={`relative w-full rounded-2xl bg-gradient-to-br ${scene.bg} border-2 border-border/50 overflow-hidden p-4`}>
+          {/* Background decoration */}
+          <div className="absolute inset-0 flex items-end justify-center opacity-15 text-7xl pb-2 pointer-events-none select-none">
+            {scene.bgEmoji}
+          </div>
 
-          {/* Character grid overlay */}
-          <div className="relative grid grid-cols-2 gap-3 p-3 bg-background/80 backdrop-blur-sm">
+          <div className="relative grid grid-cols-2 gap-4 sm:gap-6">
             {scene.characters.map((char) => {
               const isHighlighted = highlightedId === char.id;
+              const isWrong = feedback === "wrong";
 
               return (
                 <motion.button
                   key={char.id}
-                  className={`relative flex flex-col items-center justify-center rounded-2xl p-4 sm:p-5 transition-all min-h-[90px] ${
+                  className={`relative flex flex-col items-center justify-center rounded-2xl p-4 sm:p-6 transition-all min-h-[100px] ${
                     isHighlighted
                       ? "bg-accent/30 ring-4 ring-accent shadow-lg scale-105"
-                      : "bg-background hover:bg-accent/10 hover:shadow-md active:scale-95 border border-border/40"
+                      : "bg-background/60 hover:bg-background/80 hover:shadow-md active:scale-95"
                   }`}
                   onClick={() => handleTap(char)}
                   whileHover={{ scale: isHighlighted ? 1.05 : 1.06 }}
