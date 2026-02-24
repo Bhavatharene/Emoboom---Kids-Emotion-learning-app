@@ -12,7 +12,7 @@ import EmojiLearning from "./pages/activities/EmojiLearning";
 import FaceDetection from "./pages/activities/FaceDetection";
 import SituationQuiz from "./pages/activities/SituationQuiz";
 import CalmDown from "./pages/activities/CalmDown";
-import GuessEmotion from "./pages/activities/GuessEmotion";
+import AIStoryBuilder from "./pages/activities/AIStoryBuilder";
 import MemoryMatch from "./pages/activities/MemoryMatch";
 import EmotionDressUp from "./pages/activities/EmotionDressUp";
 import EmotionDetective from "./pages/activities/EmotionDetective";
@@ -37,7 +37,7 @@ const AppRoutes = () => (
     <Route path="/activity/face-detection" element={<ProtectedRoute><FaceDetection /></ProtectedRoute>} />
     <Route path="/activity/situation-quiz" element={<ProtectedRoute><SituationQuiz /></ProtectedRoute>} />
     <Route path="/activity/calm-down" element={<ProtectedRoute><CalmDown /></ProtectedRoute>} />
-    <Route path="/activity/guess-emotion" element={<ProtectedRoute><GuessEmotion /></ProtectedRoute>} />
+    <Route path="/activity/story-builder" element={<ProtectedRoute><AIStoryBuilder /></ProtectedRoute>} />
     <Route path="/activity/memory-match" element={<ProtectedRoute><MemoryMatch /></ProtectedRoute>} />
     <Route path="/activity/emotion-dress-up" element={<ProtectedRoute><EmotionDressUp /></ProtectedRoute>} />
     <Route path="/activity/emotion-detective" element={<ProtectedRoute><EmotionDetective /></ProtectedRoute>} />

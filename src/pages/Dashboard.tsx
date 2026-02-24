@@ -15,7 +15,7 @@ const activities = [
   { id: "emotion-dress-up", emoji: "🎨", title: "Emotion Dress-Up", desc: "Build a face!" },
   { id: "emotion-detective", emoji: "🔍", title: "Emotion Detective", desc: "Find the emotion!" },
   { id: "calm-down", emoji: "🧘", title: "Calm Down", desc: "Breathe and relax!" },
-  { id: "guess-emotion", emoji: "🤔", title: "Guess Emotion", desc: "What are they feeling?" },
+  { id: "story-builder", emoji: "📖", title: "AI Story Builder", desc: "Your choices shape the story!" },
   { id: "memory-match", emoji: "🧩", title: "Memory Match", desc: "Match emoji pairs!" },
 ];
 
