@@ -3,6 +3,7 @@ import ActivityLayout from "@/components/ActivityLayout";
 import { useActivityLog } from "@/hooks/useActivityLog";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { speakText } from "@/lib/speech";
 
 const emotions = [
   { emoji: "😊", name: "Happy", meaning: "Feeling glad, joyful, and full of smiles!" },
@@ -23,6 +24,7 @@ const EmojiLearning = () => {
   const handleSelect = async (idx: number) => {
     setSelected(idx);
     const emotion = emotions[idx];
+    speakText(emotion.name);
     await logEmotion(emotion.name, "emoji");
     const earned = 1;
     setStars((s) => s + earned);
