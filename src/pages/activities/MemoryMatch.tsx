@@ -4,6 +4,7 @@ import { useActivityLog } from "@/hooks/useActivityLog";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { speakText } from "@/lib/speech";
 
 const pairs = [
   { emoji: "😊", name: "Happy" },
@@ -41,6 +42,8 @@ const MemoryMatch = () => {
 
   const handleFlip = (id: number) => {
     if (flipped.length === 2 || flipped.includes(id) || matched.includes(id)) return;
+    const card = cards.find((c) => c.id === id)!;
+    speakText(card.type === "emoji" ? pairs[card.pairId].name : card.content);
     const newFlipped = [...flipped, id];
     setFlipped(newFlipped);
 

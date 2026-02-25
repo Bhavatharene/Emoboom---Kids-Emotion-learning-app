@@ -1,8 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import ActivityLayout from "@/components/ActivityLayout";
 import { useActivityLog } from "@/hooks/useActivityLog";
+import { speakText } from "@/lib/speech";
 
 type EyeOption = "normal" | "closed" | "wide";
 type BrowOption = "straight" | "raised" | "angled";
@@ -109,6 +110,11 @@ const EmotionDressUp = () => {
   const [parts, setParts] = useState<FaceParts>({ eyes: "normal", brows: "straight", mouth: "smile" });
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [showStarAnim, setShowStarAnim] = useState(false);
+
+  // Speak instruction when emotion changes
+  useEffect(() => {
+    speakText(`Make the character ${emotion}`);
+  }, [emotion, round]);
 
   const pickNewEmotion = useCallback(() => {
     const next = EMOTIONS[Math.floor(Math.random() * EMOTIONS.length)];
