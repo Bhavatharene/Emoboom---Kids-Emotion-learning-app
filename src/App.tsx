@@ -16,6 +16,7 @@ import AIStoryBuilder from "./pages/activities/AIStoryBuilder";
 import MemoryMatch from "./pages/activities/MemoryMatch";
 import EmotionDressUp from "./pages/activities/EmotionDressUp";
 import EmotionDetective from "./pages/activities/EmotionDetective";
+import ParentDashboard from "./pages/ParentDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const AppRoutes = () => (
     <Route path="/activity/memory-match" element={<ProtectedRoute><MemoryMatch /></ProtectedRoute>} />
     <Route path="/activity/emotion-dress-up" element={<ProtectedRoute><EmotionDressUp /></ProtectedRoute>} />
     <Route path="/activity/emotion-detective" element={<ProtectedRoute><EmotionDetective /></ProtectedRoute>} />
+    <Route path="/parent-insights" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
