@@ -132,6 +132,13 @@ const Dashboard = () => {
             <BookHeart className="w-5 h-5 mr-2" />
             Mood Journal 📔
           </Button>
+          <Button
+            onClick={() => navigate("/parent-insights")}
+            className="flex-1 rounded-xl font-display h-12"
+            variant="outline"
+          >
+            👨‍👩‍👧 Parent Insights
+          </Button>
         </div>
 
         {/* Activity Grid */}
